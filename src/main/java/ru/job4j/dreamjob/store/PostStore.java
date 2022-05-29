@@ -35,4 +35,12 @@ public class PostStore {
         post.setId(size.incrementAndGet());
         return posts.put(post.getId(), post);
     }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public boolean update(Post post) {
+        return posts.replace(post.getId(), post) != null;
+    }
 }
