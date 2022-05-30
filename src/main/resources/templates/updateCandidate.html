@@ -29,28 +29,28 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link " href="#">Главная <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
                 <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link active" th:href="@{/formAddCandidate}">Добавить кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
             </div>
         </div>
     </nav>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новый кандидат.
+                Редактирование кандидата.
             </div>
             <div class="card-body">
-                <form th:action="@{/createCandidate}" method="POST">
+                <form th:action="@{/updateCandidate}" method="POST" th:object="${candidate}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
-                        <input type="hidden" name="id" value="0">
                         <label>Имя
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
                         </label>
                         <label>Описание
-                            <input type="text" class="form-control" name="desc">
+                            <input type="text" class="form-control" name="desc" th:field="*{desc}">
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
