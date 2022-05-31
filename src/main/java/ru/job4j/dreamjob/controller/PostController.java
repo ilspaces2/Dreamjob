@@ -14,7 +14,11 @@ import java.time.LocalDateTime;
 @Controller
 public class PostController {
 
-    private final PostService service = PostService.instOf();
+    private final PostService service;
+
+    public PostController(PostService service) {
+        this.service = service;
+    }
 
     /**
      * Метод posts принимает объект Model. Он используется Thymeleaf для поиска объектов,
