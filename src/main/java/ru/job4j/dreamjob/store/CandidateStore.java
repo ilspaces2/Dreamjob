@@ -4,7 +4,6 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,9 +18,9 @@ public class CandidateStore {
     private final AtomicInteger size;
 
     private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Ivan", "Java", LocalDateTime.now()));
-        candidates.put(2, new Candidate(2, "Max", "C++", LocalDateTime.now()));
-        candidates.put(3, new Candidate(3, "Anna", "Python", LocalDateTime.now()));
+        candidates.put(1, new Candidate(1, "Ivan", "Java", new byte[]{}));
+        candidates.put(2, new Candidate(2, "Max", "C++", new byte[]{}));
+        candidates.put(3, new Candidate(3, "Anna", "Python", new byte[]{}));
         size = new AtomicInteger(candidates.size());
     }
 
