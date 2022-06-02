@@ -69,6 +69,7 @@ public class PostController {
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id) {
         model.addAttribute("post", service.findById(id));
+        model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";
     }
 
@@ -78,6 +79,7 @@ public class PostController {
      */
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
+        post.setCity(cityService.findById(post.getCity().getId()));
         service.update(post);
         return "redirect:/posts";
     }
