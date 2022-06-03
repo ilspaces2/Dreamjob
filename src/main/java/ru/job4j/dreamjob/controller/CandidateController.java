@@ -34,7 +34,7 @@ public class CandidateController {
 
     @GetMapping("/formAddCandidate")
     public String addCandidate(Model model) {
-        model.addAttribute("candidates", new Candidate(0, "Boris", "Pascal", LocalDateTime.now()));
+        model.addAttribute("candidates", new Candidate(0, "Boris", "Pascal", LocalDateTime.now(), new byte[]{}));
         return "addCandidate";
     }
 

@@ -26,11 +26,12 @@ public class Candidate {
         this.photo = photo;
     }
 
-    public Candidate(int id, String name, String desc, LocalDateTime created) {
+    public Candidate(int id, String name, String desc, LocalDateTime created, byte[] photo) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.created = created;
+        this.photo = photo;
     }
 
     public int getId() {
