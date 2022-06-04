@@ -2,6 +2,8 @@ package ru.job4j.dreamjob.store;
 
 import net.jcip.annotations.ThreadSafe;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @ThreadSafe
 @Repository
 public class CandidateDBStore {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CandidateDBStore.class);
 
     private final BasicDataSource pool;
 
@@ -35,7 +39,7 @@ public class CandidateDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("SQL findAll candidates error : {}", e.getMessage());
         }
         return candidates;
     }
@@ -55,7 +59,7 @@ public class CandidateDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("SQL add candidate error : {}", e.getMessage());
         }
         return candidate;
     }
@@ -72,7 +76,7 @@ public class CandidateDBStore {
             ps.setInt(5, candidate.getId());
             rzl = ps.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("SQL update candidate error : {}", e.getMessage());
         }
         return rzl;
     }
@@ -93,7 +97,7 @@ public class CandidateDBStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("SQL findById candidate error : {}", e.getMessage());
         }
         return null;
     }
