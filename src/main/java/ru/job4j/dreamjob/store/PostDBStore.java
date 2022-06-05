@@ -117,4 +117,16 @@ public class PostDBStore {
         }
         return null;
     }
+
+    public boolean deleteAll() {
+        boolean rez = false;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM post")
+        ) {
+            rez = ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            LOGGER.error("SQL deleteAll error : {}", e.getMessage());
+        }
+        return rez;
+    }
 }
