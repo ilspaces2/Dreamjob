@@ -5,8 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.dreamjob.model.City;
-import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.model.User;
 
 import java.sql.Connection;
@@ -29,9 +27,9 @@ public class UserDBStore {
     public Optional<User> add(User user) {
         Optional<User> addUser = Optional.empty();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (name, email) VALUES (?, ?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (password, email) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, user.getName());
+            ps.setString(1, user.getPassword());
             ps.setString(2, user.getEmail());
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -54,7 +52,7 @@ public class UserDBStore {
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
                     return new User(it.getInt("id"),
-                            it.getString("name"),
+                            it.getString("password"),
                             it.getString("email")
                     );
                 }
@@ -75,5 +73,25 @@ public class UserDBStore {
             LOGGER.error("SQL deleteAll error : {}", e.getMessage());
         }
         return rez;
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String password, String email) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE password = ? and email = ?")
+        ) {
+            ps.setString(1, password);
+            ps.setString(2, email);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return Optional.of(new User(it.getInt("id"),
+                            it.getString("password"),
+                            it.getString("email")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("SQL findUserByEmailAndPwd user error : {}", e.getMessage());
+        }
+        return Optional.empty();
     }
 }

@@ -28,4 +28,8 @@ public class UserService {
     public boolean deleteAll() {
         return store.deleteAll();
     }
+
+    public Optional<User> findUserByEmailAndPwd(String password, String email) {
+        return store.findUserByEmailAndPwd(password, email);
+    }
 }

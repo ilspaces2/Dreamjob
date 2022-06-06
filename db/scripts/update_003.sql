@@ -1,5 +1,5 @@
 create TABLE if not exists users (
    id SERIAL PRIMARY KEY,
-   name varchar,
+   password varchar,
    email varchar unique
 );
