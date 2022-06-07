@@ -21,7 +21,7 @@ public class UserDBStoreTest {
 
     @Test
     public void whenAddUser() {
-        User user = new User(0, "Boris", "boris@yandex.ru");
+        User user = new User(0, "Boris", "boris@yandex.ru", "name");
         STORE.add(user);
         User userDB = STORE.findById(user.getId());
         assertThat(user.getPassword(), is(userDB.getPassword()));
@@ -29,9 +29,9 @@ public class UserDBStoreTest {
 
     @Test
     public void whenAddUsersWithEqualsEmail() {
-        User user1 = new User(0, "Max", "Max@yandex.ru");
+        User user1 = new User(0, "Max", "Max@yandex.ru", "name");
         Optional<User> userOptional1 = STORE.add(user1);
-        User user2 = new User(0, "Joe", "Max@yandex.ru");
+        User user2 = new User(0, "Joe", "Max@yandex.ru", "name");
         Optional<User> userOptional2 = STORE.add(user2);
         assertFalse(userOptional1.isEmpty());
         assertTrue(userOptional2.isEmpty());
@@ -39,9 +39,9 @@ public class UserDBStoreTest {
 
     @Test
     public void whenFindByPasAndEmail() {
-        User user = new User(0, "Max", "Max@yandex.ru");
-        User user1 = new User(1, "Max1", "Max1@yandex.ru");
-        User user2 = new User(2, "Max2", "Max2@yandex.ru");
+        User user = new User(0, "Max", "Max@yandex.ru", "name");
+        User user1 = new User(1, "Max1", "Max1@yandex.ru", "name");
+        User user2 = new User(2, "Max2", "Max2@yandex.ru", "name");
         STORE.add(user);
         STORE.add(user1);
         STORE.add(user2);

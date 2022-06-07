@@ -27,10 +27,11 @@ public class UserDBStore {
     public Optional<User> add(User user) {
         Optional<User> addUser = Optional.empty();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (password, email) VALUES (?, ?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (password, email, name) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getPassword());
             ps.setString(2, user.getEmail());
+            ps.setString(3, user.getName());
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -53,7 +54,8 @@ public class UserDBStore {
                 if (it.next()) {
                     return new User(it.getInt("id"),
                             it.getString("password"),
-                            it.getString("email")
+                            it.getString("email"),
+                            it.getString("name")
                     );
                 }
             }
@@ -85,7 +87,8 @@ public class UserDBStore {
                 if (it.next()) {
                     return Optional.of(new User(it.getInt("id"),
                             it.getString("password"),
-                            it.getString("email")
+                            it.getString("email"),
+                            it.getString("name")
                     ));
                 }
             }
