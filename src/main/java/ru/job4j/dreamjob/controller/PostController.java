@@ -33,29 +33,20 @@ public class PostController {
      * model.addAttribute("posts", store.findAll());
      * Контроллер заполняет Model и передает два объекта в Thymeleaf – Model и View(posts.html).
      * Thymeleaf генерирует HTML и возвращает ее клиенту.
+     *
      * @param model
      * @return
      */
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        model.addAttribute("user", getUserFromSession(session));
         model.addAttribute("posts", service.findAll());
         return "posts";
     }
 
     @GetMapping("/formAddPost")
     public String addPost(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        model.addAttribute("user", getUserFromSession(session));
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
     }
@@ -63,9 +54,10 @@ public class PostController {
     /**
      * createPost обрабатывает пост запрос по адресу /createPost.
      * Для этого используется th:action="@{/createPost}" method="POST" в html документе.
+     *
      * @ModelAttribute Post post - собирает полученные данные из
      * инпутов в html документе (input type="text" class="form-control" name="name")
-     *
+     * <p>
      * Алтернативный вариант сбора информации с использованием класса HttpServletRequest
      * Необходимо будет получить данные с помощью гет методов и вставить их в объект при создании
      */
@@ -83,12 +75,7 @@ public class PostController {
      */
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        model.addAttribute("user", getUserFromSession(session));
         model.addAttribute("post", service.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";
@@ -103,6 +90,15 @@ public class PostController {
         post.setCity(cityService.findById(post.getCity().getId()));
         service.update(post);
         return "redirect:/posts";
+    }
+
+    private User getUserFromSession(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        return user;
     }
 }
 
